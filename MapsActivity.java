@@ -256,41 +256,20 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         setColoredCountries(countries);
         checkPermissions();
-        mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+        /*mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
-                final List<GeoJsonLayer> data = DataHolder.getInstance().getData();
+                final List<CountryLayer> data = DataHolder.getInstance().getData();
                 //if(mMap.getCameraPosition().zoom > 12) { // Your required zoom level to show polygons
                     LatLngBounds latLngBounds = mMap.getProjection().getVisibleRegion().latLngBounds;
-                    for(GeoJsonLayer layer: data) {
-                        for(GeoJsonFeature feature: layer.getFeatures()) {
-                            if(feature.hasGeometry()) {
-                                Geometry geometry = feature.getGeometry();
-                                List<LatLng> edges = feature.getEdges();
-                                for(int i = 0; i < coordinates.size(); i = i + coordinates.size()/10000) {
-                                    if(latLngBounds.contains(getCoordinatesFromGeometry(geometry).get(i))) {
-                                        layer.getDefaultPolygonStyle().setVisible(true);
-                                        break;
-                                    }
-                                }
-                            }
+                    for(CountryLayer layer: data) {
+                        if(latLngBounds.contains(layer.getSmallest()) || latLngBounds.contains(layer.getLargest()) && !layer.getLayer().getDefaultPolygonStyle().isVisible()) {
+                            layer.getLayer().getDefaultPolygonStyle().setVisible(true);
                         }
                     }
                 //}
             }
-        });
-    }
-
-    private List<LatLng> getCoordinatesFromGeometry(Geometry geo) {
-        List<LatLng> list = new ArrayList<>();
-        String geoStr = ((ArrayList) geo.getGeometryObject()).get(0).toString();
-        geoStr = geoStr.replaceAll("[^0-9.,]", "");
-        String[] strings = geoStr.split(",");
-        for(int i = 0; i < strings.length; i = i + 2) {
-            LatLng newLatLng = new LatLng(Double.parseDouble(strings[i]), Double.parseDouble(strings[i+1]));
-            list.add(newLatLng);
-        }
-        return list;
+        });*/
     }
 
     @SuppressLint("MissingPermission")

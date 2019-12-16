@@ -41,10 +41,10 @@ public class ColoredCountries extends AsyncTask<String, Integer, Long> {
                 style.setFillColor(Color.argb(130, 250, 0, 0));
                 style.setStrokeColor(Color.BLACK);
                 style.setStrokeWidth(1F);
-                style.setVisible(false);
-                CountryLayer countryLayer = new CountryLayer(newString, layer);
+                style.setVisible(true);
+                CountryLayer countryLayer = new CountryLayer(newString, layer, mMap);
                 map.addCountryLayer(countryLayer);
-                runOnMainThread(layer);
+                runOnMainThread(countryLayer);
             } catch (IOException ex) {
                 Log.e("IOException", ex.getLocalizedMessage());
             } catch (JSONException ex) {
@@ -56,13 +56,13 @@ public class ColoredCountries extends AsyncTask<String, Integer, Long> {
         return color_countries_done;
     }
 
-    private void runOnMainThread(GeoJsonLayer layer) {
-        final GeoJsonLayer geoJsonLayer = layer;
-        DataHolder.getInstance().addLayer(layer);
+    private void runOnMainThread(CountryLayer layer) {
+        final CountryLayer countryLayer = layer;
+        DataHolder.getInstance().addLayer(countryLayer);
         mapsActivity.runOnUiThread(new Runnable(){
             @Override
             public void run(){
-                geoJsonLayer.addLayerToMap();
+                countryLayer.addLayerToMap();
             }
         });
     }
